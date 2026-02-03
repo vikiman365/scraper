@@ -1,0 +1,59 @@
+{
+  "title": "On Cloud Mexico Scraper",
+  "description": "Scrape all products from On Cloud Mexico website with detailed information and images",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "startUrls": {
+      "title": "Start URLs",
+      "type": "array",
+      "description": "URLs to start scraping from (usually just the homepage)",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://oncloud.com.mx/"
+        }
+      ],
+      "default": [
+        {
+          "url": "https://oncloud.com.mx/"
+        }
+      ]
+    },
+    "maxProducts": {
+      "title": "Maximum Products",
+      "type": "integer",
+      "description": "Maximum number of products to scrape (0 = unlimited)",
+      "default": 1000,
+      "minimum": 1,
+      "maximum": 10000,
+      "unit": "products"
+    },
+    "maxConcurrency": {
+      "title": "Max Concurrency",
+      "type": "integer",
+      "description": "Number of parallel requests (higher = faster but more likely to be blocked)",
+      "default": 3,
+      "minimum": 1,
+      "maximum": 10,
+      "unit": "requests"
+    },
+    "includeImages": {
+      "title": "Include Images",
+      "type": "boolean",
+      "description": "Extract product images (increases scraping time)",
+      "default": true
+    },
+    "proxyConfiguration": {
+      "title": "Proxy Configuration",
+      "type": "object",
+      "description": "Select proxy settings to avoid blocking",
+      "editor": "proxy",
+      "default": {
+        "useApifyProxy": true,
+        "groups": ["RESIDENTIAL"]
+      }
+    }
+  },
+  "required": ["startUrls"]
+}

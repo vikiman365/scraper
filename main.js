@@ -1,19 +1,23 @@
 const Apify = require('apify');
 const { handleStartPage, handleProductList, handleProductDetail } = require('./src/pageHandlers');
-
 Apify.main(async () => {
-    console.log('Starting On Cloud Mexico scraper...');
+    console.log('✅ Apify.main is working! Starting scraper...');
+    // 这里可以先只放一个简单任务，比如访问首页
+    const requestQueue = await Apify.openRequestQueue();
+    await requestQueue.addRequest({ url: 'https://oncloud.com.mx/' });
     
-    // Get input configuration from UI
-    const input = await Apify.getInput();
+    const crawler = new Apify.CheerioCrawler({
+        requestQueue,
+        maxRequestsPerCrawl: 1,
+        handlePageFunction: async ({ request, $ }) => {
+            console.log(`成功访问： ${request.url}`);
+            console.log(`页面标题： ${$('title').text()}`);
+        },
+    });
     
-    const {
-        startUrls = [{ url: 'https://oncloud.com.mx/' }],
-        maxProducts = 1000,
-        maxConcurrency = 3,
-        includeImages = true,
-        proxyConfiguration = { useApifyProxy: true },
-    } = input;
+    await crawler.run();
+    console.log('🎉 测试运行完成！');
+});
     
     // Initialize datasets
     const dataset = await Apify.openDataset();
@@ -249,4 +253,5 @@ async function generateSummary(dataset, productsDataset, categoriesDataset, deta
     });
     
     console.log('Summary:', summary);
+
 }

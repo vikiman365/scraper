@@ -1,5 +1,5 @@
 # Use the official Apify image
-FROM apify/actor-node:18
+FROM apify/actor-node:20
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
@@ -23,3 +23,4 @@ RUN mkdir -p src
 # Run the actor
 
 CMD ["npm", "start", "--silent"]
+
